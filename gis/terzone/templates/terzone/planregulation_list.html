@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Planreg
+{% endblock %}
+
+{% block body %}
+  <h1>Planning Regulation:</h1>
+  <div>
+    <ul>
+      {% for planreg in planregulation_list %}
+        <li><a class="text-decoration-none"
+               href="{% url 'terzone:planreg' pk=planreg.pk %}"
+        >{{ planreg.name }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div>
+    <ul>
+      <li>
+        <a href="{% url 'terzone:create-planreg' %}">Create a new planning regulation</a>
+      </li>
+      <li>
+        <a href="{% url 'terzone:index' %}">Back</a>
+      </li>
+    </ul>
+  </div>
+{% endblock %}

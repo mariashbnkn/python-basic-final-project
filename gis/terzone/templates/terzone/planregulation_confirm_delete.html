@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Archive #{{ planregulation.pk }}
+{% endblock %}
+
+{% block body %}
+  <h1>Archive <code>{{ planregulation.name }}</code></h1>
+  <div class="alert alert-danger">
+    Are you sure you want to archive planning regulation #{{ planregulation.pk }}
+    with name <code>{{ planregulation.name }}</code>?
+  </div>
+
+  <form method="post">
+    {% csrf_token %}
+    <input class="btn btn-warning" type="submit" value="Archive">
+  </form>
+
+
+  <div>
+    <a class="btn btn-sm btn-info" href="{% url 'terzone:planreg' pk=planregulation.pk %}">Back to planreg details</a>
+  </div>
+{% endblock %}

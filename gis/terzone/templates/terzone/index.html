@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Terzone Index
+{% endblock %}
+
+{% block body %}
+  <div>
+    <h1>GIS</h1>
+    <h3>Create and change</h3>
+    <ul>
+      <li>
+        <a href="{% url 'terzone:planregs' %}">Planning Regulation</a>
+      </li>
+      <li>
+        <a href="{% url 'terzone:terzones' %}">Terzone</a>
+      </li>
+    </ul>
+  </div>
+{% endblock %}
+
+

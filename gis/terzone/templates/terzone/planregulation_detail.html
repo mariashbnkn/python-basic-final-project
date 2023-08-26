@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Planreg{{ planregulation.pk }}
+{% endblock %}
+
+{% block body %}
+  <h1> #{{ planregulation.pk }} details</h1>
+  <h2><code>{{ planregulation.name }}</code></h2>
+  <h4><code class="text-success">Kind territorial zone:</code> {{ planregulation.kind_terzone.name }}</h4>
+  <h5>Description:</h5>
+  <p>{{ planregulation.note }}</p>
+<!--  <h5>List territorial zone:</h5>-->
+<!--  <p>{{ planregulation.terzones.id }}</p>-->
+ <div>
+    <a class="btn btn-success" href="{% url 'terzone:update-planreg' pk=planregulation.pk %}">Update</a>
+     {% if perms.terzone.delete_planreg %}
+      <a class="btn btn-warning" href="{% url 'terzone:confirm-delete-planreg' pk=planregulation.pk %}">Archive</a>
+    {% endif %}
+    <ul>
+      <li>
+        <a href="{% url 'terzone:planregs' %}">Back</a>
+      </li>
+    </ul>
+  </div>
+
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Update Planreg #{{ category.pk }}
+{% endblock %}
+
+{% block body %}
+  <h3>Update planning regulation #{{ planregulation.pk }} with name <code>{{ planregulation.name }}</code></h3>
+  <form class="my-3" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <input class="btn btn-primary" type="submit" value="Update">
+  </form>
+
+  <div>
+    <a class="btn btn-sm btn-info" href="{% url 'terzone:planreg' pk=planregulation.pk %}">Back to planreg details</a>
+  </div>
+{% endblock %}

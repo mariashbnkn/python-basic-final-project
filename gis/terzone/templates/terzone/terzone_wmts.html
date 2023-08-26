@@ -1,0 +1,77 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>terzonemap</title>
+	<meta charset="utf-8" />
+	<link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+	<style>
+		html, body {
+			height: 100%;
+			margin: 0;
+		}
+		#map {
+			width: 100%;
+			height: 100%;
+		}
+	</style>
+</head>
+<body>
+<nav class="mb-2 px-3 navbar navbar-light bg-light">
+  <a class="navbar-brand" href="{% url 'index' %}">TerzoneGIS</a>
+
+  <div>
+    {% if user.is_authenticated %}
+      <a href="{% url 'site_auth:about-me' %}">{{ user.username }}</a>
+      <a href="{% url 'site_auth:logout' %}">Logout</a>
+    {% else %}
+      <a
+        class="btn btn-outline-primary"
+        href="{% url 'site_auth:login' %}">
+        Login
+      </a>
+    {% endif %}
+      <ul class="navbar-nav me-auto mb-20 mb-sm-0">
+  <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle link-success" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Dropdown
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{% url 'terzone:planregs' %}">Planning regulation</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="{% url 'terzone:terzones' %}">Territorial zones</a></li>
+          </ul>
+        </li>
+</ul>
+  </div>
+</nav>
+
+<div id='map'></div>
+<script>
+    var baseurl ='http://127.0.0.1:8000/';
+	var map = L.map('map').setView([56.8416,60.5956],10);
+	L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+	}).addTo(map);
+	var wmsOptions = {
+		layers: 'gis:terzone_terzoneexist',
+		format: 'image/png',
+		transparent: true,
+		width: '768',
+		height: '741',
+		// CQL_FILTER : "name='lalala'"
+	}
+	var wmsLayer = L.tileLayer.wms(baseurl + 'terzone/getwmts', wmsOptions).addTo(map);
+</script>
+
+
+</body>
+</html>

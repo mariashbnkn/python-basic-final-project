@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Planning regulation
+{% endblock %}
+
+{% block body %}
+  <h3>aaaaaa</h3>
+ <div>
+    <ul>
+      <li>
+        <a href="{% url 'terzone:create-kindterzone' %}">Create a new kind territorial zone</a>
+      </li>
+    </ul>
+  </div>
+  <ul>
+    {% for kind_terzone in kind_terzones %}
+      <li>
+        <code>${{ kind_terzone.code }}</code>
+        - {{ kind_terzone.name }}
+      </li>
+    {% endfor %}
+    <div>
+    <ul>
+      <li>
+        <a href="{% url 'terzone:create-kindterzone' %}">Create a new kind territorial zone</a>
+      </li>
+      <li>
+        <a href="{% url 'terzone:create-planreg' %}">Back to planning regulation</a>
+      </li>
+    </ul>
+  </div>
+  </ul>
+{% endblock %}
