@@ -49,6 +49,7 @@ class PlanRegulation(models.Model):
         KindTerzone,
         on_delete=models.CASCADE,
         related_name="planreg",
+        null=True,
     )
     archived = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
