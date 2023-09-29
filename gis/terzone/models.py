@@ -1,9 +1,16 @@
+# from random import random
+import random
+
 from django.db import models
 from django.contrib.gis.db import models as gis_mod
 from django.db.models import Q
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 from django.urls import reverse
+
+
+def random_string():
+    return int(random.randint(10000000, 99999999))
 
 
 class KindTerzone(models.Model):
@@ -20,6 +27,10 @@ class TerzoneExist(models.Model):
         ARCHIVED = 1
         AVAILABLE = 0
 
+    geo_key = models.IntegerField(
+        null=False,
+        default=random_string,
+    )
     index = models.CharField(max_length=100)
     kind_terzone = models.ForeignKey(
         KindTerzone,
