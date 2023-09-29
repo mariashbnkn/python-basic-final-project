@@ -11,14 +11,17 @@ from .views import (
     PlanRegsListView,
     PlanregUpdateView,
     PlanregDeleteView,
+    TerzoneDetailView,
 )
-from .geoserver import wmts, terzone_wmts
+from .geoserver import terzones_map
 
 app_name = "terzone"
 
 urlpatterns = [
     path("", TerzoneIndexView.as_view(), name="index"),
     path("terzones/", TerzonesView.as_view(), name="terzones"),
+    path("terzones/<int:pk>/", TerzoneDetailView.as_view(), name="terzone"),
+    path("terzones/terzones_map/", terzones_map, name="terzones_map"),
     path("planregs/", PlanRegsListView.as_view(), name="planregs"),
     path("planregs/<int:pk>/", PlanregDetailView.as_view(), name="planreg"),
     path("planregs/create/", PlanregCreateView.as_view(), name="create-planreg"),
@@ -26,9 +29,4 @@ urlpatterns = [
     path("planregs/<int:pk>/confirm-delete/", PlanregDeleteView.as_view(), name="confirm-delete-planreg"),
     path("planregs/create/kindterzone/", KindTerzoneView.as_view(), name="kindterzone"),
     path("planregs/create/kindterzone/create/", KindTerzoneCreateView.as_view(), name="create-kindterzone"),
-    path("getwmts/", wmts),
-    path("terzone_wmts/", terzone_wmts, name="terzone_wmts"),
-    # path("feature/", getfeature),
-    # path("bbox_feature/", bbox_feature, name="bbox_feature"),
-    # path("attr_feature/", attr_feature, name="attr_feature"),
 ]

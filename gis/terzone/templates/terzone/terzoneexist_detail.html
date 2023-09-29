@@ -1,0 +1,55 @@
+{% extends 'base_map.html' %}
+
+{% block title %}
+  Terzone {{ terzoneexist.geo_key }}
+{% endblock %}
+
+
+{% block body %}
+
+<script>
+    var map = L.map("map").setView([56.8416,60.5956],10);
+
+    var osm = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+        attribution:
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    });
+
+    osm.addTo(map);
+
+    var wms_layer = L.tileLayer.wms("http://localhost:8080/geoserver/terzone/wms", {
+        layers: 'terzone_terzoneexist',
+        format: 'image/png',
+        transparent: true,
+    });
+
+   wms_layer.addTo(map);
+
+    var geojsonStyle = {
+        fillColor: "#ff7800",
+        color: "#000",
+        weight: 1,
+        opacity: 1,
+        fillOpacity: 0.8,
+    };
+
+    var wfs_url =
+        "http://localhost:8080/geoserver/terzone/wfs?service=wfs&version=2.0.0&request=GetFeature&typeNames=terzone:terzone_terzoneexist&outputFormat=application/json&srsName=epsg:4326";
+
+    $.getJSON(wfs_url, {
+    cql_filter: "geo_key= '{{terzoneexist.geo_key}}'",
+    // cql_filter: "index= 'ЗГЛ'",
+    }).then((res) => {
+        var layer = L.geoJson(res, {
+            onEachFeature: function (feature, layer) {
+                layer.bindPopup("Index: " + feature.properties.index).addTo(map)
+            },
+            style: geojsonStyle,
+        }).addTo(map);
+    map.fitBounds(layer.getBounds());
+    });
+
+</script>
+
+{% endblock %}

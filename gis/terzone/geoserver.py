@@ -18,9 +18,8 @@ def wmts(request):
     return HttpResponse(image_data,content_type='image/png')
 
 
-# wmts
-def terzone_wmts(request):
-    return render(request,'terzone/terzone_wmts.html')
+def terzones_map(request):
+    return render(request,'terzone/terzones_map.html')
 
 
 # def getfeature(request):
@@ -32,15 +31,6 @@ def terzone_wmts(request):
 #     print(url)
 #     json_data = requests.get(url=url)
 #     return HttpResponse(json_data,content_type='application/json')
-#
-#
-# # box_feature
-# def bbox_feature(request):
-#     return render(request,'terzone/bbox_feature.html')
-#
-#
-# # attr_feature
-# def attr_feature(request):
-#     return render(request,'terzone/attr_feature.html')
+
 
 

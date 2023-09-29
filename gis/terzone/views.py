@@ -35,6 +35,10 @@ class TerzonesView(View):
         )
 
 
+class TerzoneDetailView(DetailView):
+    model = TerzoneExist
+
+
 class PlanRegsListView(ListView):
     queryset = (
         PlanRegulation
