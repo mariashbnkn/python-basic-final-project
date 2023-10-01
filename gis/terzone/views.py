@@ -58,25 +58,6 @@ class PlanregDetailView(DetailView):
     model = PlanRegulation
 
 
-# class PlanregTerzoneView(ListView):
-#
-#     def test_func(self):
-#
-#         # Order.objects.filter(...)
-#         return self.request.user.is_staff
-#
-#     template_name = "terzone/planregulation_detail.html"
-#     context_object_name = "planregs"
-#     queryset = (
-#         PlanRegulation
-#         .objects
-#         .order_by("id")
-#         # .select_related("user", "payment_details")
-#         .prefetch_related("terzones")
-#         .all()
-#     )
-
-
 class PlanregUpdateView(UpdateView):
     template_name_suffix = "_update_form"
     model = PlanRegulation

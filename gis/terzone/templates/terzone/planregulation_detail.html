@@ -10,8 +10,13 @@
   <h4><code class="text-success">Kind territorial zone:</code> {{ planregulation.kind_terzone.name }}</h4>
   <h5>Description:</h5>
   <p>{{ planregulation.note }}</p>
-<!--  <h5>List territorial zone:</h5>-->
-<!--  <p>{{ planregulation.terzones.id }}</p>-->
+  <h5>List territorial zone:</h5>
+    <p>{% for terzone in planregulation.terzones.all %}
+         {{ terzone.pk }}
+      <a class="text-decoration-none"
+               href="{% url 'terzone:terzone' pk=terzone.pk %}"
+        >Show on map</a>
+        {% endfor %}</p>
  <div>
     <a class="btn btn-success" href="{% url 'terzone:update-planreg' pk=planregulation.pk %}">Update</a>
      {% if perms.terzone.delete_planreg %}

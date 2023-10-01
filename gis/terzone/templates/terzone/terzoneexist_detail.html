@@ -18,34 +18,42 @@
 
     osm.addTo(map);
 
-    var wms_layer = L.tileLayer.wms("http://localhost:8080/geoserver/terzone/wms", {
-        layers: 'terzone_terzoneexist',
-        format: 'image/png',
-        transparent: true,
-    });
+   var wfs_url =
+        "http://localhost:8080/geoserver/terzone/wfs?service=wfs&version=2.0.0&request=GetFeature&typeNames=terzone:terzone_terzoneexist&outputFormat=application/json&srsName=epsg:4326";
 
-   wms_layer.addTo(map);
-
-    var geojsonStyle = {
+    var geojsonStyle2 = {
         fillColor: "#ff7800",
         color: "#000",
         weight: 1,
         opacity: 1,
-        fillOpacity: 0.8,
+        fillOpacity: 1,
     };
 
-    var wfs_url =
-        "http://localhost:8080/geoserver/terzone/wfs?service=wfs&version=2.0.0&request=GetFeature&typeNames=terzone:terzone_terzoneexist&outputFormat=application/json&srsName=epsg:4326";
+    var geojsonStyle1 = {
+        fillColor: "#ff7800",
+        color: "#000",
+        weight: 1,
+        opacity: 1,
+        fillOpacity: 0.5,
+    };
+
+    $.getJSON(wfs_url).then((res) => {
+        var layer = L.geoJson(res, {
+            onEachFeature: function (feature, layer) {
+                layer.bindPopup("Index: " + feature.properties.index).addTo(map)
+            },
+            style: geojsonStyle1,
+        }).addTo(map);
+    });
 
     $.getJSON(wfs_url, {
     cql_filter: "geo_key= '{{terzoneexist.geo_key}}'",
-    // cql_filter: "index= 'ЗГЛ'",
     }).then((res) => {
         var layer = L.geoJson(res, {
             onEachFeature: function (feature, layer) {
                 layer.bindPopup("Index: " + feature.properties.index).addTo(map)
             },
-            style: geojsonStyle,
+            style: geojsonStyle2,
         }).addTo(map);
     map.fitBounds(layer.getBounds());
     });
