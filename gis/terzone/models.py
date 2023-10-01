@@ -1,4 +1,3 @@
-# from random import random
 import random
 
 from django.db import models
@@ -6,7 +5,6 @@ from django.contrib.gis.db import models as gis_mod
 from django.db.models import Q
 from django.dispatch import receiver
 from django.db.models.signals import post_save
-from django.urls import reverse
 
 
 def random_string():
@@ -85,10 +83,12 @@ def on_order_save(instance: PlanRegulation, created: bool, **kwargs):
         .all()
     )
     for terzone in terzones_on_kind:
-        (PlanRegulation
-         .objects
-         .filter(~Q(archived=True))
-         .get(kind_terzone_id=instance.kind_terzone_id)
-         .terzones.add(terzone)
-    )
-    # add exception!!!!
+        try:
+            (PlanRegulation
+             .objects
+             .filter(~Q(archived=True))
+             .get(kind_terzone_id=instance.kind_terzone_id)
+             .terzones.add(terzone)
+             )
+        except:
+            PlanRegulation.objects.filter(pk=instance.pk).delete()
