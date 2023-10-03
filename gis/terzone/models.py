@@ -6,6 +6,8 @@ from django.db.models import Q
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 
+from .task import notify_order_saved
+
 
 def random_string():
     return int(random.randint(10000000, 99999999))
@@ -70,7 +72,12 @@ class PlanRegulation(models.Model):
 
 # signals django
 @receiver(post_save, sender=PlanRegulation)
-def on_order_save(instance: PlanRegulation, created: bool, **kwargs):
+def on_order_save_planregs(instance: PlanRegulation, created: bool, **kwargs):
+
+    notify_order_saved.delay(
+        planreg_pk=instance.pk,
+        name=instance.name,
+    )
 
     if not created:
         return
