@@ -3,6 +3,7 @@ version: '3.9'
 volumes:
    geoserver-data:
    geo-db-data:
+   rmq-data:
 
 services:
 
@@ -39,7 +40,24 @@ services:
         db:
           condition: service_healthy
       healthcheck:
-#        test: "curl --fail --silent --write-out 'HTTP CODE : %{http_code}\n' --output /dev/null -u ${GEOSERVER_ADMIN_USER}:'${GEOSERVER_ADMIN_PASSWORD}' http://localhost:8080/geoserver/rest/about/version.xml"
+        test: "curl --fail --silent --write-out 'HTTP CODE : %{http_code}\n' --output /dev/null -u ${GEOSERVER_ADMIN_USER}:'${GEOSERVER_ADMIN_PASSWORD}' http://localhost:8080/geoserver/rest/about/version.xml"
         interval: 1m30s
         timeout: 10s
         retries: 3
+
+    rabbitmq:
+      image: rabbitmq:3-management
+      #    environment:
+      #      RABBITMQ_DEFAULT_USER: user
+      #      RABBITMQ_DEFAULT_PASS: password
+      ports:
+        - "5672:5672"
+        - "8090:15672"
+      volumes:
+        - rmq-data:/var/lib/rabbitmq
+
+    maildev:
+      image: maildev/maildev
+      ports:
+        - "1080:1080"
+        - "1025:1025"

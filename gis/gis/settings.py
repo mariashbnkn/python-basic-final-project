@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    "django_celery_results",
+
     "site_auth.apps.SiteAuthConfig",
     # gis
     "terzone.apps.TerzoneConfig",
@@ -149,3 +151,20 @@ FIXTURE_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = reverse_lazy("site_auth:login")
+
+EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+EMAIL_FILE_PATH = ".terzone-messages"
+
+# Celery
+
+# Celery Configuration Options
+CELERY_TIMEZONE = "Europe/Moscow"
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 15 * 60
+
+# # backend
+CELERY_BROKER_URL = "amqp://localhost:5672"
+CELERY_RESULT_BACKEND = "django-db"
+CELERY_CACHE_BACKEND = "django-cache"
+# ignore warning
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
