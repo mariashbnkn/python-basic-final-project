@@ -2,6 +2,9 @@
     Project for creating urban planning regulations, linking to territorial zone and mapping (GIS)
 ### ### ###
 
+# install GDAL
+    sudo apt-get install gdal-bin
+
 # docker build
     docker compose up -d --build
 
@@ -22,6 +25,10 @@
 # create workspace and add stores in geoserver (password and login in "docker-compose.yaml")
 # and publish terzone_terzoneexist
     http://localhost:8080/geoserver/web/
+
+# celery
+    python manage.py migrate django_celery_results
+    celery -A gis worker -l INFO
 
 # run app 
     python manage.py runserver
